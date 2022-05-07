@@ -1,0 +1,127 @@
+body {
+  background-color: gray;
+}
+
+/* PLACAR */
+
+.imgPlacar{
+  width: 5em;
+}
+.imgPlacar1{
+}
+.imgPlacar2{
+}
+#imgVez{
+  background-color: black;
+}
+.placar {
+  border-radius: 1em;
+  border-radius: 1em;
+  animation: rgb 15s linear infinite;
+}
+.rowPlacar{
+  padding-top: 1em;
+}
+.ponto{
+  border-radius: 0.1em;
+  border-radius: 0.1em;
+  width: 1.3em;
+  background-color: rgb(153, 153, 153);
+}
+.pontoBolinha{
+  padding-bottom: 0.1em;
+  margin-top:-1.30em;
+  margin-left: 2.3em;
+  font-size: 4em;
+  color: aliceblue;
+}
+.pontoXis{
+  padding-bottom: 0.1em;
+  margin-top:-1.30em;
+  margin-left: -0.75em;
+  font-size: 4em;
+  color: aliceblue;
+}
+.vencedor{
+  padding-bottom: 0.5em;
+  padding-top: 0;
+  margin-top:-2em;
+  font-size: medium;
+}
+
+#buttonPlayAgain{
+  margin-top: -5em;
+  width: 12em;
+}
+
+/* JOGO */
+
+#jogo {}
+
+#vezJogador{
+  width: 5em;
+  margin-left: -5em;
+  padding-top: 1em;
+}
+
+.casa {
+  border-radius: 1em;
+  border-radius: 1em;
+  width: 15em;
+  animation: rgb 15s linear infinite;
+}
+tr {
+  margin-top: 0px!important;
+  margin-bottom: 0px!important;
+
+}
+
+td {
+  padding-top: 0px!important;
+  padding-bottom: 0px!important;
+}
+@keyframes rgb {
+  0% {
+    box-shadow: 0px 0px 2em #ff0000;
+  }
+
+  10% {
+    box-shadow: 0px 0px 2em #ff9a00;
+  }
+
+  20% {
+    box-shadow: 0px 0px 2em #d0de21;
+  }
+
+  30% {
+    box-shadow: 0px 0px 2em #4fdc4a;
+  }
+
+  40% {
+    box-shadow: 0px 0px 2em #3fdad8;
+  }
+
+  50% {
+    box-shadow: 0px 0px 2em #2fc9e2;
+  }
+
+  60% {
+    box-shadow: 0px 0px 2em #1c7fee;
+  }
+
+  70% {
+    box-shadow: 0px 0px 2em #5f15f2;
+  }
+
+  80% {
+    box-shadow: 0px 0px 2em #ba0cf8;
+  }
+
+  90% {
+    box-shadow: 0px 0px 2em #fb07d9;
+  }
+
+  100% {
+    box-shadow: 0px 0px 2em #ff0000;
+  }
+}

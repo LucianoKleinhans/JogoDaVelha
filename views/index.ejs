@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+</head>
+
+<body>
+    <!-- <div class="row">
+        <h4 class="col s3">Vez do jogador:</h4>
+        <img id="vezJogador" class="col s2 responsive-img" src="/img/vazio.png" alt="">
+        <div class="placar container">
+            <div class="row">
+                <div class="col s5">
+                    <div class="row">
+                        <div class="col s2">
+                            <img class="imgPlacar" src="/img/1.png" alt="">
+                        </div>
+                        <div class="col s2">
+                            <h1>0</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s5">
+                    <img class="imgPlacar" src="/img/2.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div id="jogo" class="container">
+        <div class="container">
+            <div class="row ">
+                <div class="col s12 ">
+                    <div class="placar center container">
+                        <div class="row rowPlacar">
+                            <div class="col s5 left">
+                                <td><img class="imgPlacar imgPlacar1 responsive-img" src="/img/1.png" alt=""></td>
+                                <h1 class="pontoBolinha ponto">0</h1>
+                            </div>
+                            <div class="col s5 right">
+                                <td><img class="imgPlacar imgPlacar2 responsive-img" src="/img/2.png" alt=""></td>
+                                <h1 class="pontoXis ponto">0</h1>
+                            </div>
+                        </div>
+                        <button id="buttonPlayAgain" class="center waves-effect waves-light btn">Play Again</button>
+                        <p>
+                        <div id="resultado2"></div>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <table id="" class="center container">
+                <tr class="row1">
+                    <td class="col1 center" data-tilt data-tilt-glare data-tilt-max-glare="0">
+                        <img id="casa1" class=" responsive-img casa" src="/img/vazio.png" alt="">
+                    </td>
+                    <td class="col2 center" data-tilt data-tilt-glare data-tilt-max-glare="0">
+                        <img id="casa2" class=" responsive-img casa" src="/img/vazio.png" alt="">
+                    </td>
+                    <td class="col3 center" data-tilt data-tilt-glare data-tilt-max-glare="0">
+                        <img id="casa3" class=" responsive-img casa" src="/img/vazio.png" alt="">
+                    </td>
+                </tr>
+                <tr class="row2">
+                    <td class="col1 center" data-tilt data-tilt-glare data-tilt-max-glare="0">
+                        <img id="casa4" class=" responsive-img casa" src="/img/vazio.png" alt="">
+                    </td>
+                    <td class="col2 center" data-tilt data-tilt-glare data-tilt-max-glare="0">
+                        <img id="casa5" class=" responsive-img casa" src="/img/vazio.png" alt="">
+                    </td>
+                    <td class="col3 center" data-tilt data-tilt-glare data-tilt-max-glare="0">
+                        <img id="casa6" class=" responsive-img casa" src="/img/vazio.png" alt="">
+                    </td>
+                </tr>
+                <tr class="row3">
+                    <td class="col1 center" data-tilt data-tilt-glare data-tilt-max-glare="0">
+                        <img id="casa7" class=" responsive-img casa" src="/img/vazio.png" alt="">
+                    </td>
+                    <td class="col2 center" data-tilt data-tilt-glare data-tilt-max-glare="0">
+                        <img id="casa8" class=" responsive-img casa" src="/img/vazio.png" alt="">
+                    </td>
+                    <td class="col3 center" data-tilt data-tilt-glare data-tilt-max-glare="0">
+                        <img id="casa9" class=" responsive-img casa" src="/img/vazio.png" alt="">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- <script type="text/javascript" src="./js/script.js"></script> -->
+    <script type="text/javascript" src="./js/vanilla-tilt.js"></script>
+    <script src="./js/socket.io.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        var socket = io();
+        var vencedor = "";
+        socket.on('user',(player) => {
+            var meuJogador = player.user;
+            console.log(meuJogador);
+        });
+        //$("#vezJogador").attr('src','./img/'+vez+'.png');
+        $(".casa").click(function play() {
+            var element = $(this).attr('id');
+            socket.emit('id', element);
+            console.log(element + "bom dia");
+
+            socket.on('casaSelecionada', (element) => {
+                var limiteJogador = element.limite;
+                var bg = '/img/vazio.png';
+                console.log(element);
+                var id = '#' + element.casaSelecionada;
+                var vezJoga = element.vezJogador;
+                $(".imgPlacar1").attr('id', 'imgVez');
+                if (meuJogador == vezJoga) {
+                    if ($(id).attr('src') == bg) {
+                        $(id).attr('src', './img/' + vezJoga + '.png');
+                        //vez = (vez == 1 ? 2 : 1);
+                        $("#vezJogador").attr('src', './img/' + vezJoga + '.png');
+                        if (vezJoga == 1) {
+                            $(".imgPlacar1").attr('id', 'imgVez');
+                            $(".imgPlacar2").attr('id', '');
+                        } else {
+                            $(".imgPlacar2").attr('id', 'imgVez');
+                            $(".imgPlacar1").attr('id', '');
+                        }
+                    }
+                } else {
+                    console.log('Nao é sua vez Caralho!');
+                }
+            });
+
+            verificarFimDeJogo();
+        });
+
+        function verificarFimDeJogo() {
+            if (casasIguais(1, 2, 3) || casasIguais(4, 5, 6) || casasIguais(7, 8, 9) ||
+                casasIguais(1, 4, 7) || casasIguais(2, 5, 8) || casasIguais(3, 6, 9) ||
+                casasIguais(1, 5, 9) || casasIguais(3, 5, 7)
+            ) {
+                $("#resultado2").html("<h1 class='vencedor'> O jogador " + vencedor + " venceu! </h1>");
+                $(".casa").addClass("offClick");
+                $(".offClick").off("click");
+            }
+        }
+        function casasIguais(a, b, c) {
+            var casaA = $("#casa" + a);
+            var casaB = $("#casa" + b);
+            var casaC = $("#casa" + c);
+            var casaVazio = '/img/vazio.png';
+            var bgA = $("#casa" + a).attr('src');
+            var bgB = $("#casa" + b).attr('src');
+            var bgC = $("#casa" + c).attr('src');
+            if ((bgA == bgB) && (bgB == bgC) && (bgA != casaVazio && bgA != casaVazio)) {
+                if (bgA.indexOf("./img/1.png") >= 0)
+                    vencedor = "1";
+                else
+                    vencedor = "2";
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        // $("#buttonPlayAgain").click(function () {
+        //     vez = 1;
+        //     vencedor = "";
+        //     $(".casa").attr('src', '/img/vazio.png');
+        //     $(".imgPlacar1").attr('id', 'imgVez');
+        //     $(".imgPlacar2").attr('id', '');
+        //     $(".casa").removeClass("offClick");
+        //     $(".casa").addClass("onClick");
+        // });
+    </script>
+</body>
+
+</html>
