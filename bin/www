@@ -25,20 +25,21 @@ var server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
-var vez = 1;
+// var vez = 1;
 var player = 1;
 io.on('connection', (socket) => {
-  console.log('Player '+player+' conectou!');
-  socket.emit('user', {player});// ajustar essa merda aqui
-  player++;
-  if (player <=2) {
-    socket.on('id', (element) => {
-      vez = (vez == 1 ? 2 : 1);
-      console.log('Casa Selecionada: ' + element + ', user: '+vez);
-      socket.broadcast.emit('casaSelecionada', { casaSelecionada: element, vezJogador: vez});
-      socket.emit('casaSelecionada', { casaSelecionada: element, vezJogador: vez});
-    });
-  }else{
+  console.log('Player ' + player + ' conectou!');
+  socket.emit('user', player);
+  socket.on('id', (element) => {
+    if (element.user <= 2) {
+      console.log('Casa Selecionada: ' + element.casa + ' - USER :' + element.user);
+      socket.broadcast.emit('casaSelecionada', { casaSelecionada: element.casa, user: element.user });
+      socket.emit('casaSelecionada', { casaSelecionada: element.casa, user: element.user });
+    }
+  });
+  if (player <= 2) {
+    player++;
+  } else {
     console.log('Limite de Jogadores Atingido!');
   }
 });
