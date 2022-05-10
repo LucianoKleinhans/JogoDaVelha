@@ -86,18 +86,24 @@
             meuJogador = player;
             console.log("player: " + meuJogador);
         });
+        $(".imgPlacar1").attr('id', 'imgVez');
         socket.on('casaSelecionada', (element) => {
-                //var limiteJogador = element.limite;
                 var bg = '/img/vazio.png';
                 console.log(element);
                 var id = '#' + element.casaSelecionada;
                 vezJoga = element.user;
+                vencedor = element.vencedorJogo;
+                console.log("-"+vencedor);
+                if((element.vencedorJogo=="1") || (element.vencedorJogo=="2")){
+                    $("#resultado2").html("<h1 class='vencedor'> O jogador " + vencedor + " venceu! </h1>");
+                    //$(".casa").addClass("offClick");
+                    $(".offClick").off("click");
+                }
                 //vez = vezJoga;
-                $(".imgPlacar1").attr('id', 'imgVez');
                 if ($(id).attr('src') == bg) {
                     $(id).attr('src', './img/' + vezJoga + '.png');
                     $("#vezJogador").attr('src', './img/' + vezJoga + '.png');
-                    if (vezJoga == 1) {
+                    if (vezJoga == 2) {
                         $(".imgPlacar1").attr('id', 'imgVez');
                         $(".imgPlacar2").attr('id', '');
                     } else {
@@ -106,17 +112,15 @@
                     }
                 }
             });
-        //$("#vezJogador").attr('src','./img/'+vez+'.png');
         $(".casa").click(function play() {
-            console.log(vezJoga + " - ola - " + meuJogador);
-
+            //console.log(vezJoga + " - ola - " + meuJogador);
             var element = $(this).attr('id');
             vezJoga = (vezJoga == 1 ? 2 : 1);
             if(vezJoga == meuJogador){
                 socket.emit('id', { casa: element, user: meuJogador });
+                verificarFimDeJogo();
             }
-            //console.log(element + " bom dia");
-            //verificarFimDeJogo();
+            verificarFimDeJogo();
         });
 
         function verificarFimDeJogo() {
@@ -124,9 +128,7 @@
                 casasIguais(1, 4, 7) || casasIguais(2, 5, 8) || casasIguais(3, 6, 9) ||
                 casasIguais(1, 5, 9) || casasIguais(3, 5, 7)
             ) {
-                $("#resultado2").html("<h1 class='vencedor'> O jogador " + vencedor + " venceu! </h1>");
-                $(".casa").addClass("offClick");
-                $(".offClick").off("click");
+
             }
         }
         function casasIguais(a, b, c) {
@@ -138,10 +140,14 @@
             var bgB = $("#casa" + b).attr('src');
             var bgC = $("#casa" + c).attr('src');
             if ((bgA == bgB) && (bgB == bgC) && (bgA != casaVazio && bgA != casaVazio)) {
-                if (bgA.indexOf("./img/1.png") >= 0)
+                if (bgA.indexOf("./img/1.png") >= 0){
                     vencedor = "1";
-                else
+                    socket.emit('id',{vencedorJogo:vencedor});
+                }
+                else{
                     vencedor = "2";
+                    socket.emit('id',{vencedorJogo:vencedor});
+                }
                 return true;
             }
             else {

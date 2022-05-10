@@ -31,23 +31,26 @@ io.on('connection', (socket) => {
   console.log('Player ' + player + ' conectou!');
   socket.emit('user', player);
   socket.on('id', (element) => {
+    socket.broadcast.emit('casaSelecionada',{casaSelecionada: element.vencedorJogo});
+    socket.emit('casaSelecionada',{casaSelecionada: element.vencedorJogo})
     if (element.user <= 2) {
       console.log('Casa Selecionada: ' + element.casa + ' - USER :' + element.user);
       socket.broadcast.emit('casaSelecionada', { casaSelecionada: element.casa, user: element.user });
       socket.emit('casaSelecionada', { casaSelecionada: element.casa, user: element.user });
     }
   });
-  if (player <= 2) {
+  if (player < 2) {
     player++;
   } else {
     console.log('Limite de Jogadores Atingido!');
+    player = 1;
   }
 });
 
 
 /**
- * Listen on provided port, on all network interfaces.
- */
+* Listen on provided port, on all network interfaces.
+*/
 
 server.listen(port);
 server.on('error', onError);
